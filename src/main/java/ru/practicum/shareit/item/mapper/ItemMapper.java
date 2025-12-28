@@ -7,7 +7,10 @@ import ru.practicum.shareit.item.model.Item;
 
 public interface ItemMapper {
     ItemDto toItemDto(Item item);
+
     Item toItem(ItemDto itemDto);
+
     Item toItem(CreateItemDto itemDto);
+
     Item updateItemFields(Item item, UpdateItemDto itemDto);
 }

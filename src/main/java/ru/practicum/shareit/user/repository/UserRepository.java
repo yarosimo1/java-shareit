@@ -7,9 +7,14 @@ import java.util.Optional;
 
 public interface UserRepository {
     Collection<User> findAll();
+
     User save(User user);
+
     Optional<User> update(User user);
+
     void delete(long userId);
+
     Optional<User> findById(long userId);
+
     Optional<User> findUserByEmail(String email);
 }
