@@ -41,6 +41,7 @@ public class ItemMapperImpl implements ItemMapper {
                 itemDto.getRequest() != null ? itemDto.getRequest() : null
         );
     }
+
     @Override
     public Item updateItemFields(Item item, UpdateItemDto itemDto) {
         if (itemDto.getName() != null) {

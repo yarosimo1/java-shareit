@@ -22,7 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<User> findUserByEmail(String email) {
        return users.values().stream()
-                .filter(user -> 
+                .filter(user ->
                         user.getEmail().equals(email))
                 .findFirst();
     }
