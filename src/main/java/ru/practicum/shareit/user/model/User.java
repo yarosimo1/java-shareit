@@ -1,31 +1,21 @@
 package ru.practicum.shareit.user.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * TODO Sprint add-controllers.
  */
 @Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
-    @NotNull(message = "Id должен быть указан")
     private Long id;
 
-    @NotBlank(message = "Имя не может быть пустым")
     private String name;
 
-    @NotBlank(message = "Электронная почта не может быть пустой")
-    @Email(message = "Некорректный формат электронной почты")
     private String email;
-
-    public User(@NotBlank(message = "Имя не может быть пустым")
-                String name,
-                @NotBlank(message = "Электронная почта не может быть пустой")
-                @Email(message = "Некорректный формат электронной почты")
-                String email) {
-        this.name = name;
-        this.email = email;
-    }
 }

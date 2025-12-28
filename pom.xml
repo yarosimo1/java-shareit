@@ -63,6 +63,12 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok-mapstruct-binding</artifactId>
+			<version>0.2.0</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -223,9 +229,18 @@
 								<artifactId>lombok</artifactId>
 								<version>1.18.32</version>
 							</path>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok-mapstruct-binding</artifactId>
+								<version>0.2.0</version>
+							</path>
 						</annotationProcessorPaths>
+						<compilerArgs>
+							<arg>-Amapstruct.defaultComponentModel=spring</arg>
+						</compilerArgs>
 					</configuration>
 				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>

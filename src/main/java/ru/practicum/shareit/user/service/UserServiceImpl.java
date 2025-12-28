@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService {
     public UserDto add(CreateUserDto userDto) {
         log.info("Добавление пользователя {}", userDto);
         userRepository.findUserByEmail(userDto.getEmail()).ifPresent(user -> {
-            throw new DuplicatedDataException("This email address  is already used");
-        });
+                    throw new DuplicatedDataException("This email addres is already used");});
+
         return userMapper.toUserDto(
                 userRepository.save(userMapper.toUser(userDto)));
     }
@@ -38,8 +38,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         userRepository.findUserByEmail(userDto.getEmail()).ifPresent(user1 -> {
-            throw new DuplicatedDataException("This email address  is already used");
-        });
+            throw new DuplicatedDataException("This email addres is already used");});
 
         User updatedUser = userMapper.updateUserFields(user, userDto);
 
