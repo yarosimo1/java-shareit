@@ -28,15 +28,13 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemMapper.toItem(itemDto);
         item.setOwnerId(userService.getUser(ownerId).getId());
 
-        return itemMapper.toItemDto(
-                itemRepository.save(item));
+        return itemMapper.toItemDto(itemRepository.save(item));
     }
 
     @Override
     public ItemDto update(long itemId, long ownerId, UpdateItemDto itemDto) {
         log.info("Обновление предмета {}", itemDto);
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new NotFoundException("Item not found"));
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Item not found"));
 
         if (!item.getOwnerId().equals(ownerId)) throw new NotFoundException("Owner not found");
 
@@ -51,8 +49,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Collection<ItemDto> getItems(long ownerId) {
         log.info("Получение всех предметов по владельцу с id {}", ownerId);
-        return itemRepository.findAll()
-                .stream()
+        return itemRepository.findAll().stream()
                 .filter(item -> item.getOwnerId().equals(ownerId))
                 .map(itemMapper::toItemDto)
                 .toList();
@@ -62,8 +59,8 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto getItem(long itemId) {
         log.info("Получение предмета с id", itemId);
         return itemRepository.findById(itemId)
-                .map(itemMapper::toItemDto)
-                .orElseThrow(() -> new NotFoundException("Item not found"));
+                .map(itemMapper::toItemDto).orElseThrow(() ->
+                new NotFoundException("Item not found"));
     }
 
     @Override

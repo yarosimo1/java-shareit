@@ -25,25 +25,25 @@ public class UserServiceImpl implements UserService {
     public UserDto add(CreateUserDto userDto) {
         log.info("Добавление пользователя {}", userDto);
         userRepository.findUserByEmail(userDto.getEmail()).ifPresent(user -> {
-                    throw new DuplicatedDataException("This email addres is already used");});
+            throw new DuplicatedDataException("This email addres is already used");
+        });
 
-        return userMapper.toUserDto(
-                userRepository.save(userMapper.toUser(userDto)));
+        return userMapper.toUserDto(userRepository.save(userMapper.toUser(userDto)));
     }
 
     @Override
     public UserDto update(long userId, UpdateUserDto userDto) {
         log.info("Обновление пользователя {}", userDto);
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
 
         userRepository.findUserByEmail(userDto.getEmail()).ifPresent(user1 -> {
-            throw new DuplicatedDataException("This email addres is already used");});
+            throw new DuplicatedDataException("This email addres is already used");
+        });
 
         User updatedUser = userMapper.updateUserFields(user, userDto);
 
-        User savedUser = userRepository.update(updatedUser)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        User savedUser = userRepository.update(updatedUser).orElseThrow(() ->
+                new NotFoundException("User not found"));
 
         log.info("Обновленный пользователь {}", userDto);
         return userMapper.toUserDto(savedUser);
@@ -52,18 +52,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public Collection<UserDto> getUsers() {
         log.info("Получение всех пользователей");
-        return userRepository.findAll().stream()
-                .map(userMapper::toUserDto)
-                .toList();
+        return userRepository.findAll().stream().map(userMapper::toUserDto).toList();
     }
 
     @Override
     public UserDto getUser(long userId) {
         log.info("Получение пользователя с id {}", userId);
-        return userRepository.findById(userId)
-                .map(userMapper::toUserDto)
-                .orElseThrow(() ->
-                        new NotFoundException("User not found"));
+        return userRepository.findById(userId).map(userMapper::toUserDto).orElseThrow(() ->
+                new NotFoundException("User not found"));
     }
 
     @Override

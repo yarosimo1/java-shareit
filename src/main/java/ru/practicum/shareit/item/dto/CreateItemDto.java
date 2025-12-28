@@ -13,7 +13,7 @@ public class CreateItemDto {
     private String name;
 
     @NotBlank(message = "Описание не может быть пустым")
-    private  String description;
+    private String description;
 
     @NotNull(message = "Статус не может быть пустым")
     private Boolean available;

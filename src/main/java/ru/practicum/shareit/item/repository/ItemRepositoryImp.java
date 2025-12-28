@@ -9,7 +9,7 @@ import java.util.*;
 @Slf4j
 @Repository
 public class ItemRepositoryImp implements ItemRepository {
-    private Map<Long, Item> items = new HashMap<>();
+    private final Map<Long, Item> items = new HashMap<>();
 
     @Override
     public Collection<Item> findAll() {
@@ -34,8 +34,7 @@ public class ItemRepositoryImp implements ItemRepository {
     @Override
     public Optional<Item> findById(long itemId) {
         log.info("Поиск предмета {}", itemId);
-        return Optional.ofNullable(
-                items.get(itemId));
+        return Optional.ofNullable(items.get(itemId));
     }
 
     @Override
@@ -49,15 +48,13 @@ public class ItemRepositoryImp implements ItemRepository {
 
         return items.values().stream()
                 .filter(item -> Boolean.TRUE.equals(item.getAvailable()))
-                .filter(item ->
-                        item.getName().toLowerCase().contains(lowerQuery) ||
-                                item.getDescription().toLowerCase().contains(lowerQuery))
+                .filter(item -> item.getName().toLowerCase().contains(lowerQuery)
+                        || item.getDescription().toLowerCase().contains(lowerQuery))
                 .toList();
     }
 
     private long getNextId() {
-        long currentMaxId = items.keySet()
-                .stream()
+        long currentMaxId = items.keySet().stream()
                 .mapToLong(id -> id)
                 .max()
                 .orElse(0);
