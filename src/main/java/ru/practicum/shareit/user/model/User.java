@@ -1,10 +1,9 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.shareit.request.ItemRequest;
 
 /**
  * TODO Sprint add-controllers.
@@ -13,11 +12,8 @@ import ru.practicum.shareit.request.ItemRequest;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item {
+public class User {
     private Long id;
-    private Long ownerId;
     private String name;
-    private String description;
-    private Boolean available;
-    private ItemRequest request;
+    private String email;
 }
