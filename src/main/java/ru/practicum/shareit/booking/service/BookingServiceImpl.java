@@ -83,7 +83,7 @@ public class BookingServiceImpl implements BookingService {
     public Collection<BookingDto> getUserBookings(long userId, State state) {
         //для проверки пользователя на существование
         userService.getUser(userId);
-        
+
         LocalDateTime now = LocalDateTime.now();
 
         List<Booking> bookings = switch (state) {

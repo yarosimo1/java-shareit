@@ -26,6 +26,7 @@ public class ItemController {
                            @Valid @RequestBody CreateItemDto itemDto) {
         return itemService.add(ownerId, itemDto);
     }
+
     @PostMapping("/{itemId}/comment")
     public CommentDto addComment(@PathVariable("itemId") long itemId,
             @RequestHeader("X-Sharer-User-Id") long authorId,
