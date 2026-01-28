@@ -8,7 +8,6 @@ import ru.practicum.shareit.booking.model.Booking;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     // ALL
@@ -172,7 +171,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
           and b.start <= :now
         order by b.start desc
     """)
-    List<Booking> findLastBookingInternal(
+    List<Booking> findLastBooking(
             @Param("itemId") long itemId,
             @Param("now") LocalDateTime now
     );
@@ -185,20 +184,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
           and b.end >= :now
         order by b.start asc
     """)
-    List<Booking> findNextBookingInternal(
+    List<Booking> findNextBooking(
             @Param("itemId") long itemId,
             @Param("now") LocalDateTime now
     );
-
-    default Optional<Booking> findLastBooking(long itemId, LocalDateTime now) {
-        return findLastBookingInternal(itemId, now)
-                .stream()
-                .findFirst();
-    }
-
-    default Optional<Booking> findNextBooking(long itemId, LocalDateTime now) {
-        return findNextBookingInternal(itemId, now)
-                .stream()
-                .findFirst();
-    }
 }
