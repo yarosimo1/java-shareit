@@ -5,6 +5,7 @@ import lombok.Setter;
 import ru.practicum.shareit.item.comment.dto.CommentDto;
 import ru.practicum.shareit.request.ItemRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,8 +20,8 @@ public class ItemDto {
     private Boolean available;
     private ItemRequest request;
 
-    private Long lastBooking;
-    private Long nextBooking;
+    private LocalDateTime lastBooking;
+    private LocalDateTime nextBooking;
 
     private List<CommentDto> comments;
 }
