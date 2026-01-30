@@ -17,20 +17,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "comments_text")
-    private String text;
-
     @ManyToOne
     @JoinColumn(name = "item_id")
     Item item;
-
     @ManyToOne
     @JoinColumn(name = "author_id")
     User author;
-
     LocalDateTime created;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "comments_text")
+    private String text;
 }

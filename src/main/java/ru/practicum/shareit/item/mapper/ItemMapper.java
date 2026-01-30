@@ -5,7 +5,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import ru.practicum.shareit.item.comment.mapper.CommentMapper;
-import ru.practicum.shareit.item.dto.*;
+import ru.practicum.shareit.item.dto.CreateItemDto;
+import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.UpdateItemDto;
 import ru.practicum.shareit.item.model.Item;
 
 @Mapper(componentModel = "spring", uses = {CommentMapper.class})

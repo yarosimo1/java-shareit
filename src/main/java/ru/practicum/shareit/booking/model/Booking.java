@@ -32,7 +32,7 @@ public class Booking {
 
     @DateTimeFormat
     @Column(name = "end_date")
-    private LocalDateTime  end;
+    private LocalDateTime end;
 
     @ManyToOne
     @JoinColumn(name = "item_id")

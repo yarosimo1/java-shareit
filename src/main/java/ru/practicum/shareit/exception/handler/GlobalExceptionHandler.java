@@ -6,7 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.practicum.shareit.exception.*;
+import ru.practicum.shareit.exception.DuplicatedDataException;
+import ru.practicum.shareit.exception.NotFoundException;
+import ru.practicum.shareit.exception.NotOwnerException;
+import ru.practicum.shareit.exception.UnavailableItemException;
 
 import java.util.stream.Collectors;
 

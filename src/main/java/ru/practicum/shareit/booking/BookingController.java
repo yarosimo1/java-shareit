@@ -22,14 +22,13 @@ public class BookingController {
     @PostMapping
     public BookingDto addBooking(@RequestHeader("X-Sharer-User-Id") long userId,
                                  @Valid @RequestBody CreateBookingDto bookingDto) {
-        return  bookingService.add(userId, bookingDto);
+        return bookingService.add(userId, bookingDto);
     }
 
     @PatchMapping("/{bookingId}")
     public BookingDto updateBooking(@PathVariable("bookingId") long bookingId,
                                     @RequestHeader("X-Sharer-User-Id") long ownerId,
-                                    @RequestParam(name = "approved", required = false)
-                                        boolean approved) {
+                                    @RequestParam(name = "approved", required = false) boolean approved) {
         return bookingService.update(ownerId, bookingId, approved);
     }
 
@@ -41,21 +40,13 @@ public class BookingController {
 
     @GetMapping
     public Collection<BookingDto> getBookings(@RequestHeader("X-Sharer-User-Id") long userId,
-                                                @RequestParam(
-                                                        name = "state",
-                                                        defaultValue = "ALL"
-                                                ) State state
-    ) {
+                                              @RequestParam(name = "state", defaultValue = "ALL") State state) {
         return bookingService.getUserBookings(userId, state);
     }
 
     @GetMapping("/owner")
     public Collection<BookingDto> getOwnerBookings(@RequestHeader("X-Sharer-User-Id") long ownerId,
-                                                    @RequestParam(
-                                                            name = "state",
-                                                            defaultValue = "ALL"
-                                                    ) State state
-    ) {
+                                                   @RequestParam(name = "state", defaultValue = "ALL") State state) {
         return bookingService.getOwnerBookings(ownerId, state);
     }
 }

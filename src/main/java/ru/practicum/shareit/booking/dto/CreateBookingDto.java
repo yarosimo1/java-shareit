@@ -17,7 +17,7 @@ public class CreateBookingDto {
 
     @DateTimeFormat
     @NotNull
-    private LocalDateTime  end;
+    private LocalDateTime end;
 
     @NotNull
     private Long itemId;

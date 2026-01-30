@@ -29,8 +29,8 @@ public class ItemController {
 
     @PostMapping("/{itemId}/comment")
     public CommentDto addComment(@PathVariable("itemId") long itemId,
-            @RequestHeader("X-Sharer-User-Id") long authorId,
-            @Valid @RequestBody CreateCommentDto commentDto) {
+                                 @RequestHeader("X-Sharer-User-Id") long authorId,
+                                 @Valid @RequestBody CreateCommentDto commentDto) {
         return itemService.addComment(itemId, authorId, commentDto);
     }
 
@@ -53,7 +53,7 @@ public class ItemController {
 
     @GetMapping("/search")
     public Collection<ItemDto> searchItems(@RequestParam(name = "text", required = false)
-                                               String text) {
+                                           String text) {
         return itemService.searchItems(text);
     }
 }

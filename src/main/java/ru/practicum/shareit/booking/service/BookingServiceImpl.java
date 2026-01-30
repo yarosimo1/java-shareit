@@ -91,10 +91,8 @@ public class BookingServiceImpl implements BookingService {
             case CURRENT -> bookingRepository.findCurrentByBooker(userId, now);
             case PAST -> bookingRepository.findPastByBooker(userId, now);
             case FUTURE -> bookingRepository.findFutureByBooker(userId, now);
-            case WAITING ->
-                    bookingRepository.findByBookerAndStatus(userId, Status.WAITING);
-            case REJECTED ->
-                    bookingRepository.findByBookerAndStatus(userId, Status.REJECTED);
+            case WAITING -> bookingRepository.findByBookerAndStatus(userId, Status.WAITING);
+            case REJECTED -> bookingRepository.findByBookerAndStatus(userId, Status.REJECTED);
         };
 
         return bookings.stream()
@@ -114,10 +112,8 @@ public class BookingServiceImpl implements BookingService {
             case CURRENT -> bookingRepository.findCurrentByOwner(ownerId, now);
             case PAST -> bookingRepository.findPastByOwner(ownerId, now);
             case FUTURE -> bookingRepository.findFutureByOwner(ownerId, now);
-            case WAITING ->
-                    bookingRepository.findByOwnerAndStatus(ownerId, Status.WAITING);
-            case REJECTED ->
-                    bookingRepository.findByOwnerAndStatus(ownerId, Status.REJECTED);
+            case WAITING -> bookingRepository.findByOwnerAndStatus(ownerId, Status.WAITING);
+            case REJECTED -> bookingRepository.findByOwnerAndStatus(ownerId, Status.REJECTED);
         };
 
         return bookings.stream()
