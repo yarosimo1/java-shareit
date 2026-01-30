@@ -17,6 +17,8 @@ public interface UserMapper {
 
     User toUser(CreateUserDto userDto);
 
+    User toUser(UserDto userDto);
+
     default User updateUserFields(@MappingTarget User user, UpdateUserDto userDto) {
         if (userDto.getName() != null) {
             user.setName(userDto.getName());
