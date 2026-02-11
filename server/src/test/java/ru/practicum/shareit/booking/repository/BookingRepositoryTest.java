@@ -3,9 +3,9 @@ package ru.practicum.shareit.booking.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.ActiveProfiles;
 import ru.practicum.shareit.booking.enumStatus.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.model.Item;
@@ -14,18 +14,17 @@ import ru.practicum.shareit.user.model.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 class BookingRepositoryTest {
 
+    private final LocalDateTime now = LocalDateTime.now();
     @Autowired
     private BookingRepository bookingRepository;
-
     @Autowired
     private TestEntityManager em;
-
     private User owner;
     private User booker;
     private Item item;
@@ -35,63 +34,137 @@ class BookingRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        owner = em.persist(new User(null, "Owner", "owner@mail.ru"));
-        booker = em.persist(new User(null, "Booker", "booker@mail.ru"));
+        owner = em.persist(new User(
+                null,
+                "owner",
+                "owner@mail.com"
+        ));
 
-        item = em.persist(Item.builder()
-                .name("Item")
-                .description("Desc")
-                .available(true)
-                .owner(owner)
-                .build());
+        booker = em.persist(new User(
+                null,
+                "booker",
+                "booker@mail.com"
+        ));
 
-        pastBooking = em.persist(Booking.builder()
-                .item(item)
-                .booker(booker)
-                .status(Status.APPROVED)
-                .start(LocalDateTime.now().minusDays(3))
-                .end(LocalDateTime.now().minusDays(2))
-                .build());
+        item = em.persist(new Item(
+                null,
+                owner,
+                "item",
+                "desc",
+                true,
+                null,
+                List.of()
+        ));
 
-        currentBooking = em.persist(Booking.builder()
-                .item(item)
-                .booker(booker)
-                .status(Status.APPROVED)
-                .start(LocalDateTime.now().minusHours(1))
-                .end(LocalDateTime.now().plusHours(1))
-                .build());
+        pastBooking = em.persist(new Booking(
+                null,
+                now.minusDays(3),
+                now.minusDays(1),
+                item,
+                booker,
+                Status.APPROVED
+        ));
 
-        futureBooking = em.persist(Booking.builder()
-                .item(item)
-                .booker(booker)
-                .status(Status.WAITING)
-                .start(LocalDateTime.now().plusDays(1))
-                .end(LocalDateTime.now().plusDays(2))
-                .build());
+        currentBooking = em.persist(new Booking(
+                null,
+                now.minusHours(1),
+                now.plusHours(1),
+                item,
+                booker,
+                Status.APPROVED
+        ));
+
+        futureBooking = em.persist(new Booking(
+                null,
+                now.plusDays(1),
+                now.plusDays(2),
+                item,
+                booker,
+                Status.WAITING
+        ));
+
+        em.flush();
+        em.clear();
     }
 
     @Test
-    void findCurrentByBooker() {
+    void findAllByBooker_shouldReturnAllOrdered() {
+        List<Booking> bookings = bookingRepository.findAllByBooker(booker.getId());
+
+        assertEquals(3, bookings.size());
+        assertEquals(futureBooking.getId(), bookings.get(0).getId());
+    }
+
+    @Test
+    void findCurrentByBooker_shouldReturnCurrent() {
         List<Booking> bookings =
-                bookingRepository.findCurrentByBooker(booker.getId(), LocalDateTime.now());
+                bookingRepository.findCurrentByBooker(booker.getId(), now);
 
-        assertThat(bookings).containsExactly(currentBooking);
+        assertEquals(1, bookings.size());
+        assertEquals(currentBooking.getId(), bookings.get(0).getId());
     }
 
     @Test
-    void findPastByOwner() {
+    void findPastByBooker_shouldReturnPast() {
         List<Booking> bookings =
-                bookingRepository.findPastByOwner(owner.getId(), LocalDateTime.now());
+                bookingRepository.findPastByBooker(booker.getId(), now);
 
-        assertThat(bookings).containsExactly(pastBooking);
+        assertEquals(1, bookings.size());
+        assertEquals(pastBooking.getId(), bookings.get(0).getId());
     }
 
     @Test
-    void hasFinishedBooking_true() {
+    void findFutureByBooker_shouldReturnFuture() {
+        List<Booking> bookings =
+                bookingRepository.findFutureByBooker(booker.getId(), now);
+
+        assertEquals(1, bookings.size());
+        assertEquals(futureBooking.getId(), bookings.get(0).getId());
+    }
+
+    @Test
+    void findByBookerAndStatus_shouldReturnWaiting() {
+        List<Booking> bookings =
+                bookingRepository.findByBookerAndStatus(booker.getId(), Status.WAITING);
+
+        assertEquals(1, bookings.size());
+        assertEquals(futureBooking.getId(), bookings.get(0).getId());
+    }
+
+    @Test
+    void findAllByOwner_shouldReturnAll() {
+        List<Booking> bookings =
+                bookingRepository.findAllByOwner(owner.getId());
+
+        assertEquals(3, bookings.size());
+    }
+
+    @Test
+    void hasFinishedBooking_shouldReturnTrue() {
         boolean result = bookingRepository.hasFinishedBooking(
-                item.getId(), booker.getId(), LocalDateTime.now());
+                item.getId(),
+                booker.getId(),
+                now
+        );
 
-        assertThat(result).isTrue();
+        assertTrue(result);
     }
-}
 
+    @Test
+    void findLastBooking_shouldReturnLast() {
+        List<Booking> bookings =
+                bookingRepository.findLastBooking(item.getId(), now);
+
+        assertFalse(bookings.isEmpty());
+        assertEquals(currentBooking.getId(), bookings.get(0).getId());
+    }
+
+    @Test
+    void findNextBooking_shouldReturnNext() {
+        List<Booking> bookings =
+                bookingRepository.findNextBooking(item.getId(), now);
+
+        assertFalse(bookings.isEmpty());
+    }
+
+}
