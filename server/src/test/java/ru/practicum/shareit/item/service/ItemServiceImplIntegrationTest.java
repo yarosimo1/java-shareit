@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.service;
 
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.UpdateItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
+import ru.practicum.shareit.request.repository.ItemRequestRepository;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
@@ -37,22 +40,25 @@ import static org.mockito.Mockito.when;
 class ItemServiceImplIntegrationTest {
 
     @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
-    private CommentMapper commentMapper;
-
-    @Autowired
     private ItemService itemService;
 
     @Autowired
     private ItemRepository itemRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private ItemRequestRepository itemRequestRepository;
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @MockBean
     private UserService userService;
@@ -65,39 +71,23 @@ class ItemServiceImplIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        // Создаем пользователя
-        testUser = userRepository.save(User.builder()
-                .name("Test User")
-                .email("testuser@example.com")
-                .build());
-
         owner = userRepository.save(new User(null, "owner", "owner@mail.com"));
         booker = userRepository.save(new User(null, "booker", "booker@mail.com"));
+        testUser = userRepository.save(new User(null, "Test User", "testuser@example.com"));
 
         UserDto savedUser = new UserDto();
         savedUser.setId(testUser.getId());
         savedUser.setName(testUser.getName());
         savedUser.setEmail(testUser.getEmail());
 
-        // Мокаем UserService.getUser
-        when(userService.getUser(testUser.getId()))
-                .thenReturn(savedUser);
+        when(userService.getUser(testUser.getId())).thenReturn(savedUser);
 
-        // Создаем DTO для предмета
         createItemDto = new CreateItemDto();
         createItemDto.setName("Test Item");
         createItemDto.setDescription("Test Description");
         createItemDto.setAvailable(true);
 
-        item = itemRepository.save(new Item(
-                null,
-                owner,
-                "item",
-                "desc",
-                true,
-                null,
-                List.of()
-        ));
+        item = itemRepository.save(new Item(null, owner, "item", "desc", true, null, List.of()));
     }
 
     @Test
@@ -123,6 +113,15 @@ class ItemServiceImplIntegrationTest {
         assertEquals("Updated Name", updatedItem.getName());
         assertEquals("Updated Description", updatedItem.getDescription());
         assertFalse(updatedItem.getAvailable());
+    }
+
+    @Test
+    void updateItem_shouldThrowIfNotOwner() {
+        UpdateItemDto updateItemDto = new UpdateItemDto();
+        updateItemDto.setName("Fail Update");
+
+        assertThrows(NotFoundException.class, () ->
+                itemService.update(item.getId(), booker.getId(), updateItemDto));
     }
 
     @Test
@@ -157,7 +156,6 @@ class ItemServiceImplIntegrationTest {
 
     @Test
     void addComment_shouldSaveComment_whenUserHasFinishedBooking() {
-        // Создаем бронирование, которое уже завершено
         Booking booking = bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().minusDays(2),
@@ -176,7 +174,6 @@ class ItemServiceImplIntegrationTest {
         assertEquals("Great item!", result.getText());
         assertEquals(booker.getName(), result.getAuthorName());
 
-        // Проверяем, что комментарий реально в БД
         Comment saved = commentRepository.findById(result.getId()).orElseThrow();
         assertEquals("Great item!", saved.getText());
     }
@@ -201,6 +198,63 @@ class ItemServiceImplIntegrationTest {
                 () -> itemService.addComment(item.getId(), 999L, dto));
 
         assertEquals("User not found", ex.getMessage());
+    }
+
+    @Test
+    void addComment_shouldThrowValidationException_whenBookingNotFinished() {
+        CreateCommentDto dto = new CreateCommentDto();
+        dto.setText("Bad comment");
+
+        ValidationException ex = assertThrows(ValidationException.class,
+                () -> itemService.addComment(item.getId(), booker.getId(), dto));
+
+        assertEquals("User has not finished booking this item", ex.getMessage());
+    }
+
+    @Test
+    void addItem_withRequestId_shouldSetRequest() {
+        ItemRequest itemRequest = new ItemRequest();
+        itemRequest.setRequestor(testUser);
+        itemRequest.setItems(List.of());
+        itemRequest.setId(null);
+        itemRequest.setCreated(LocalDateTime.now());
+        itemRequest.setDescription("Need a drill");
+
+        ItemRequest request = itemRequestRepository.save(itemRequest);
+
+        // DTO для нового предмета с requestId
+        CreateItemDto dto = new CreateItemDto();
+        dto.setName("Drill");
+        dto.setDescription("Power drill");
+        dto.setAvailable(true);
+        dto.setRequestId(request.getId());
+
+        ItemDto savedItem = itemService.add(testUser.getId(), dto);
+
+        assertNotNull(savedItem.getId());
+        assertEquals(dto.getName(), savedItem.getName());
+        assertEquals(dto.getDescription(), savedItem.getDescription());
+
+        // Проверяем, что в сущности item реально привязался request
+        Item itemFromDb = itemRepository.findById(savedItem.getId()).orElseThrow();
+        assertNotNull(itemFromDb.getRequest());
+        assertEquals(request.getId(), itemFromDb.getRequest().getId());
+    }
+
+    @Test
+    void updateItem_shouldThrowNotFoundException_whenItemDoesNotExist() {
+        long nonExistentItemId = 999L; // ID которого нет в БД
+        long ownerId = testUser.getId(); // может быть любой существующий пользователь
+
+        UpdateItemDto dto = new UpdateItemDto();
+        dto.setName("Updated Name");
+        dto.setDescription("Updated Description");
+        dto.setAvailable(false);
+
+        NotFoundException ex = assertThrows(NotFoundException.class,
+                () -> itemService.update(nonExistentItemId, ownerId, dto));
+
+        assertEquals("Item not found", ex.getMessage());
     }
 
 }

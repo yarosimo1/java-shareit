@@ -16,6 +16,8 @@ import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -112,8 +114,41 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
+    void updateUser_whenEmailAlreadyUsed_thenThrows() {
+        User u1 = userRepository.save(new User(null, "A", "a@mail.com"));
+        User u2 = userRepository.save(new User(null, "B", "b@mail.com"));
+
+        UpdateUserDto dto = new UpdateUserDto();
+        dto.setEmail("a@mail.com");
+
+        assertThrows(DuplicatedDataException.class, () ->
+                userService.update(u2.getId(), dto));
+    }
+
+    @Test
+    void getUser_whenExists_thenReturned() {
+        User user = userRepository.save(new User(null, "Ivan", "ivan@mail.com"));
+
+        UserDto dto = userService.getUser(user.getId());
+
+        assertEquals(user.getId(), dto.getId());
+        assertEquals("Ivan", dto.getName());
+        assertEquals("ivan@mail.com", dto.getEmail());
+    }
+
+    @Test
     void getUser_whenNotFound_thenThrows() {
         assertThrows(NotFoundException.class, () -> userService.getUser(999L));
+    }
+
+    @Test
+    void getUsers_shouldReturnAllUsers() {
+        userRepository.save(new User(null, "A", "a@mail.com"));
+        userRepository.save(new User(null, "B", "b@mail.com"));
+
+        List<UserDto> users = userService.getUsers().stream().toList();
+
+        assertEquals(2, users.size());
     }
 
     @Test
@@ -126,5 +161,20 @@ class UserServiceImplIntegrationTest {
         userService.delete(user.getId());
 
         assertFalse(userRepository.findById(user.getId()).isPresent());
+    }
+
+    @Test
+    void updateUser_whenUserNotFound_thenThrows() {
+        UpdateUserDto updateDto = new UpdateUserDto();
+        updateDto.setName("New Name");
+        updateDto.setEmail("new@example.com");
+
+        // Используем несуществующий ID
+        long nonExistentUserId = 999L;
+
+        NotFoundException ex = assertThrows(NotFoundException.class, () ->
+                userService.update(nonExistentUserId, updateDto));
+
+        assertEquals("User not found", ex.getMessage());
     }
 }
