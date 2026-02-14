@@ -32,7 +32,7 @@ class BookingControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void getBookings_whenFromIsNegative_thenBadRequest() throws Exception {
+    public void getBookings_whenFromIsNegative_thenBadRequest() throws Exception {
         mockMvc.perform(get("/bookings")
                         .header("X-Sharer-User-Id", 1)
                         .param("from", "-1")
@@ -41,7 +41,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getBookings_whenSizeIsZero_thenBadRequest() throws Exception {
+    public void getBookings_whenSizeIsZero_thenBadRequest() throws Exception {
         mockMvc.perform(get("/bookings")
                         .header("X-Sharer-User-Id", 1)
                         .param("from", "0")
@@ -50,7 +50,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getBookings_whenStateUnknown_thenBadRequest() throws Exception {
+    public void getBookings_whenStateUnknown_thenBadRequest() throws Exception {
         mockMvc.perform(get("/bookings")
                         .header("X-Sharer-User-Id", 1)
                         .param("state", "WRONG_STATE"))
@@ -58,7 +58,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getBookings_whenValid_thenOk() throws Exception {
+    public void getBookings_whenValid_thenOk() throws Exception {
         when(bookingClient.getBookings(anyLong(), any(), anyInt(), anyInt()))
                 .thenReturn(ResponseEntity.ok().build());
 
@@ -78,7 +78,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getBooking_whenValid_thenOk() throws Exception {
+    public void getBooking_whenValid_thenOk() throws Exception {
         when(bookingClient.getBooking(anyLong(), anyLong()))
                 .thenReturn(ResponseEntity.ok().build());
 
@@ -90,7 +90,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void bookItem_whenValid_thenOk() throws Exception {
+    public void bookItem_whenValid_thenOk() throws Exception {
         BookItemRequestDto dto = new BookItemRequestDto();
         dto.setItemId(1L);
         dto.setStart(LocalDateTime.now().plusDays(1));
@@ -109,7 +109,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void updateBooking_whenValid_thenOk() throws Exception {
+    public void updateBooking_whenValid_thenOk() throws Exception {
         when(bookingClient.updateBooking(anyLong(), anyLong(), anyBoolean()))
                 .thenReturn(ResponseEntity.ok().build());
 
@@ -122,7 +122,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getOwnerBookings_whenValid_thenOk() throws Exception {
+    public void getOwnerBookings_whenValid_thenOk() throws Exception {
         when(bookingClient.getOwnerBookings(anyLong(), any(), anyInt(), anyInt()))
                 .thenReturn(ResponseEntity.ok().build());
 
@@ -142,7 +142,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getOwnerBookings_whenStateInvalid_thenBadRequest() throws Exception {
+    public void getOwnerBookings_whenStateInvalid_thenBadRequest() throws Exception {
         mockMvc.perform(get("/bookings/owner")
                         .header("X-Sharer-User-Id", 1)
                         .param("state", "INVALID"))

@@ -30,7 +30,7 @@ class ItemMapperTest {
     private CommentMapper commentMapper;
 
     @Test
-    void toItemDto_shouldMapFieldsAndRequestId() {
+    public void toItemDto_shouldMapFieldsAndRequestId() {
         User owner = new User(1L, "John", "john@mail.com");
         ItemRequest request = new ItemRequest();
         request.setId(100L);
@@ -48,7 +48,7 @@ class ItemMapperTest {
     }
 
     @Test
-    void toItemDto_withComments_shouldMapComments() {
+    public void toItemDto_withComments_shouldMapComments() {
         Comment comment = Comment.builder()
                 .id(1L)
                 .text("Good")
@@ -76,7 +76,7 @@ class ItemMapperTest {
     }
 
     @Test
-    void toItem_fromCreateItemDto_shouldMapFields() {
+    public void toItem_fromCreateItemDto_shouldMapFields() {
         CreateItemDto dto = new CreateItemDto();
         dto.setName("Drill");
         dto.setDescription("Power drill");
@@ -93,7 +93,7 @@ class ItemMapperTest {
     }
 
     @Test
-    void toItem_fromItemDto_shouldMapFieldsAndComments() {
+    public void toItem_fromItemDto_shouldMapFieldsAndComments() {
         CommentDto commentDto = new CommentDto();
         commentDto.setId(1L);
         commentDto.setText("Nice");
@@ -119,7 +119,7 @@ class ItemMapperTest {
     }
 
     @Test
-    void updateItemFields_shouldUpdateOnlyNonNullFields() {
+    public void updateItemFields_shouldUpdateOnlyNonNullFields() {
         Item item = new Item();
         item.setName("Old name");
         item.setDescription("Old desc");
@@ -137,7 +137,7 @@ class ItemMapperTest {
     }
 
     @Test
-    void map_shouldReturnItemRequestOrNull() {
+    public void map_shouldReturnItemRequestOrNull() {
         ItemRequest request = mapper.map(100L);
         assertNotNull(request);
         assertEquals(100L, request.getId());
@@ -146,19 +146,19 @@ class ItemMapperTest {
     }
 
     @Test
-    void toItem_fromItemDto_shouldReturnNullForNull() {
+    public void toItem_fromItemDto_shouldReturnNullForNull() {
         Item result = mapper.toItem((ItemDto) null);
         assertNull(result);
     }
 
     @Test
-    void toItem_fromCreateItemDto_shouldReturnNullForNull() {
+    public void toItem_fromCreateItemDto_shouldReturnNullForNull() {
         Item result = mapper.toItem((CreateItemDto) null);
         assertNull(result);
     }
 
     @Test
-    void toItemDto_shouldReturnNullForNull() {
+    public void toItemDto_shouldReturnNullForNull() {
         assertNull(mapper.toItemDto(null));
     }
 }

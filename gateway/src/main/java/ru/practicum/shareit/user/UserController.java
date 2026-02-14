@@ -19,23 +19,23 @@ public class UserController {
     private final UserClient userClient;
 
     @PostMapping
-    ResponseEntity<Object> postUser(@Valid @RequestBody CreateUserDto userDto) {
+    public ResponseEntity<Object> postUser(@Valid @RequestBody CreateUserDto userDto) {
         return userClient.addUser(userDto);
     }
 
     @PatchMapping(path = "/{userId}")
-    ResponseEntity<Object> updateUser(@PathVariable("userId") long id,
-                                      @Valid @RequestBody UpdateUserDto userDto) {
+    public ResponseEntity<Object> updateUser(@PathVariable("userId") long id,
+                                             @Valid @RequestBody UpdateUserDto userDto) {
         return userClient.updateUser(id, userDto);
     }
 
     @GetMapping("/{userId}")
-    ResponseEntity<Object> getUser(@PathVariable("userId") long id) {
+    public ResponseEntity<Object> getUser(@PathVariable("userId") long id) {
         return userClient.getUserById(id);
     }
 
     @DeleteMapping("/{userId}")
-    ResponseEntity<Object> deleteUser(@PathVariable("userId") long id) {
+    public ResponseEntity<Object> deleteUser(@PathVariable("userId") long id) {
         return userClient.deleteUserById(id);
     }
 }

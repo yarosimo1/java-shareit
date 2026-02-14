@@ -42,7 +42,7 @@ class ItemControllerTest {
     private ItemDto itemDto;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         createItemDto = new CreateItemDto();
         createItemDto.setName("Test Item");
         createItemDto.setDescription("Test Description");
@@ -57,7 +57,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void addItem() throws Exception {
+    public void addItem() throws Exception {
         when(itemService.add(eq(1L), any(CreateItemDto.class))).thenReturn(itemDto);
 
         mockMvc.perform(post("/items")
@@ -71,7 +71,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void updateItem() throws Exception {
+    public void updateItem() throws Exception {
         UpdateItemDto updateDto = new UpdateItemDto();
         updateDto.setName("Updated Name");
         updateDto.setDescription("Updated Description");
@@ -93,7 +93,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void getItem() throws Exception {
+    public void getItem() throws Exception {
         when(itemService.getItem(1L)).thenReturn(itemDto);
 
         mockMvc.perform(get("/items/1"))
@@ -103,7 +103,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void getItems() throws Exception {
+    public void getItems() throws Exception {
         when(itemService.getItems(1L)).thenReturn(Collections.singletonList(itemDto));
 
         mockMvc.perform(get("/items")
@@ -113,7 +113,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void searchItems() throws Exception {
+    public void searchItems() throws Exception {
         when(itemService.searchItems("test")).thenReturn(Collections.singletonList(itemDto));
 
         mockMvc.perform(get("/items/search")
@@ -123,7 +123,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void addComment() throws Exception {
+    public void addComment() throws Exception {
         CreateCommentDto commentDto = new CreateCommentDto();
         commentDto.setText("Nice item");
 

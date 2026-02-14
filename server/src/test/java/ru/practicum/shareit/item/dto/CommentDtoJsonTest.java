@@ -18,7 +18,7 @@ class CommentDtoJsonTest {
     private JacksonTester<CommentDto> json;
 
     @Test
-    void serializeCommentDto() throws Exception {
+    public void serializeCommentDto() throws Exception {
         CommentDto dto = new CommentDto();
         dto.setId(1L);
         dto.setText("Great item!");

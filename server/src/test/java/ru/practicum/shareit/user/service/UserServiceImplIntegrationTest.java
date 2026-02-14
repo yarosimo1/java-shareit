@@ -37,7 +37,7 @@ class UserServiceImplIntegrationTest {
     private UserMapper userMapper;
 
     @BeforeEach
-    void setup() {
+    public void setup() {
         // Маппинг User -> UserDto
         when(userMapper.toUserDto(any(User.class))).thenAnswer(invocation -> {
             User user = invocation.getArgument(0);
@@ -68,7 +68,7 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void addUser_whenValid_thenSaved() {
+    public void addUser_whenValid_thenSaved() {
         CreateUserDto dto = new CreateUserDto();
         dto.setName("Иван");
         dto.setEmail("ivan@example.com");
@@ -83,7 +83,7 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void addUser_whenDuplicateEmail_thenThrows() {
+    public void addUser_whenDuplicateEmail_thenThrows() {
         User existing = new User();
         existing.setName("Петр");
         existing.setEmail("ivan@example.com");
@@ -97,7 +97,7 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void updateUser_whenValid_thenUpdated() {
+    public void updateUser_whenValid_thenUpdated() {
         User user = new User();
         user.setName("Иван");
         user.setEmail("ivan@example.com");
@@ -114,7 +114,7 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void updateUser_whenEmailAlreadyUsed_thenThrows() {
+    public void updateUser_whenEmailAlreadyUsed_thenThrows() {
         User u1 = userRepository.save(new User(null, "A", "a@mail.com"));
         User u2 = userRepository.save(new User(null, "B", "b@mail.com"));
 
@@ -126,7 +126,7 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void getUser_whenExists_thenReturned() {
+    public void getUser_whenExists_thenReturned() {
         User user = userRepository.save(new User(null, "Ivan", "ivan@mail.com"));
 
         UserDto dto = userService.getUser(user.getId());
@@ -137,12 +137,12 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void getUser_whenNotFound_thenThrows() {
+    public void getUser_whenNotFound_thenThrows() {
         assertThrows(NotFoundException.class, () -> userService.getUser(999L));
     }
 
     @Test
-    void getUsers_shouldReturnAllUsers() {
+    public void getUsers_shouldReturnAllUsers() {
         userRepository.save(new User(null, "A", "a@mail.com"));
         userRepository.save(new User(null, "B", "b@mail.com"));
 
@@ -152,7 +152,7 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void deleteUser_whenExists_thenDeleted() {
+    public void deleteUser_whenExists_thenDeleted() {
         User user = new User();
         user.setName("Иван");
         user.setEmail("ivan@example.com");
@@ -164,7 +164,7 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void updateUser_whenUserNotFound_thenThrows() {
+    public void updateUser_whenUserNotFound_thenThrows() {
         UpdateUserDto updateDto = new UpdateUserDto();
         updateDto.setName("New Name");
         updateDto.setEmail("new@example.com");

@@ -48,7 +48,7 @@ class BookingServiceImplIntegrationTest {
     private Item item;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         owner = userRepository.save(new User(
                 null,
                 "owner",
@@ -73,7 +73,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void addBooking_shouldPersistAndReturnDto() {
+    public void addBooking_shouldPersistAndReturnDto() {
         CreateBookingDto dto = CreateBookingDto.builder()
                 .itemId(item.getId())
                 .start(LocalDateTime.now().plusHours(1))
@@ -90,7 +90,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void update_shouldApproveBooking() {
+    public void update_shouldApproveBooking() {
         Booking booking = bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().plusHours(1),
@@ -110,7 +110,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void getUserBookings_shouldReturnCurrent() {
+    public void getUserBookings_shouldReturnCurrent() {
         bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().minusMinutes(10),
@@ -127,7 +127,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void getBooking_shouldReturnForOwner() {
+    public void getBooking_shouldReturnForOwner() {
         Booking booking = bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().plusHours(1),
@@ -144,7 +144,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void addBooking_shouldThrowIfItemNotAvailable() {
+    public void addBooking_shouldThrowIfItemNotAvailable() {
         item.setAvailable(false);
         itemRepository.save(item);
 
@@ -159,7 +159,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void update_shouldRejectBooking() {
+    public void update_shouldRejectBooking() {
         Booking booking = bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().plusHours(1),
@@ -179,7 +179,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void update_shouldThrowIfNotOwner() {
+    public void update_shouldThrowIfNotOwner() {
         Booking booking = bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().plusHours(1),
@@ -194,7 +194,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void getBooking_shouldThrowIfNoAccess() {
+    public void getBooking_shouldThrowIfNoAccess() {
         Booking booking = bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().plusHours(1),
@@ -211,7 +211,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void getUserBookings_shouldReturnPastFutureWaitingRejected() {
+    public void getUserBookings_shouldReturnPastFutureWaitingRejected() {
         LocalDateTime now = LocalDateTime.now();
 
         Booking past = bookingRepository.save(new Booking(
@@ -237,7 +237,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void getOwnerBookings_shouldReturnAllStates() {
+    public void getOwnerBookings_shouldReturnAllStates() {
         LocalDateTime now = LocalDateTime.now();
 
         bookingRepository.save(new Booking(
@@ -264,19 +264,19 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void update_shouldThrowIfBookingNotFound() {
+    public void update_shouldThrowIfBookingNotFound() {
         assertThrows(NotFoundException.class, () ->
                 bookingService.update(owner.getId(), 9999L, true));
     }
 
     @Test
-    void getBooking_shouldThrowIfBookingNotFound() {
+    public void getBooking_shouldThrowIfBookingNotFound() {
         assertThrows(NotFoundException.class, () ->
                 bookingService.getBooking(9999L, owner.getId()));
     }
 
     @Test
-    void getUserBookings_shouldReturnAll() {
+    public void getUserBookings_shouldReturnAll() {
         bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().plusHours(1),
@@ -302,7 +302,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void getOwnerBookings_shouldReturnCurrent() {
+    public void getOwnerBookings_shouldReturnCurrent() {
         bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().minusMinutes(5),
@@ -319,7 +319,7 @@ class BookingServiceImplIntegrationTest {
     }
 
     @Test
-    void getUserBookings_shouldReturnCurrentBooking() {
+    public void getUserBookings_shouldReturnCurrentBooking() {
         bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().minusMinutes(1),

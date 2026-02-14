@@ -16,7 +16,7 @@ class ItemRequestMapperTest {
     private final ItemRequestMapper mapper = ItemRequestMapperImpl.INSTANCE;
 
     @Test
-    void toItemRequestDto_shouldMapFields() {
+    public void toItemRequestDto_shouldMapFields() {
         User requestor = new User(1L, "Alice", "alice@mail.com");
         ItemRequest request = new ItemRequest();
         request.setId(10L);
@@ -31,7 +31,7 @@ class ItemRequestMapperTest {
     }
 
     @Test
-    void toItemRequest_shouldMapFields() {
+    public void toItemRequest_shouldMapFields() {
         CreateItemRequestDto dto = new CreateItemRequestDto();
         dto.setDescription("Need a drill");
 
@@ -43,7 +43,7 @@ class ItemRequestMapperTest {
     }
 
     @Test
-    void toItemRequestDto_shouldMapItemsList() {
+    public void toItemRequestDto_shouldMapItemsList() {
         User requestor = new User(1L, "Alice", "alice@mail.com");
         ItemRequest request = new ItemRequest();
         request.setId(10L);
@@ -72,7 +72,7 @@ class ItemRequestMapperTest {
     }
 
     @Test
-    void toItemRequestDto_shouldReturnNullRequestorId_whenRequestorIsNull() {
+    public void toItemRequestDto_shouldReturnNullRequestorId_whenRequestorIsNull() {
         ItemRequest request = new ItemRequest();
         request.setId(1L);
         request.setDescription("Test request");
@@ -89,17 +89,17 @@ class ItemRequestMapperTest {
 
 
     @Test
-    void toItemRequestDto_shouldReturnNullForNull() {
+    public void toItemRequestDto_shouldReturnNullForNull() {
         assertNull(mapper.toItemRequestDto(null));
     }
 
     @Test
-    void toItemRequest_shouldReturnNullForNull() {
+    public void toItemRequest_shouldReturnNullForNull() {
         assertNull(mapper.toItemRequest(null));
     }
 
     @Test
-    void requestDtoRequestorId_shouldReturnNullForNullRequestor() {
+    public void requestDtoRequestorId_shouldReturnNullForNullRequestor() {
         ItemRequest request = new ItemRequest();
         request.setRequestor(null);
         assertNull(mapper.toItemRequestDto(request).getRequestorId());

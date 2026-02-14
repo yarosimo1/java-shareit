@@ -70,7 +70,7 @@ class ItemServiceImplIntegrationTest {
     private Item item;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         owner = userRepository.save(new User(null, "owner", "owner@mail.com"));
         booker = userRepository.save(new User(null, "booker", "booker@mail.com"));
         testUser = userRepository.save(new User(null, "Test User", "testuser@example.com"));
@@ -91,7 +91,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void addItem_ShouldSaveItem() {
+    public void addItem_ShouldSaveItem() {
         ItemDto savedItem = itemService.add(testUser.getId(), createItemDto);
 
         assertNotNull(savedItem.getId());
@@ -100,7 +100,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void updateItem_ShouldUpdateFields() {
+    public void updateItem_ShouldUpdateFields() {
         ItemDto savedItem = itemService.add(testUser.getId(), createItemDto);
 
         UpdateItemDto updateItemDto = new UpdateItemDto();
@@ -116,7 +116,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void updateItem_shouldThrowIfNotOwner() {
+    public void updateItem_shouldThrowIfNotOwner() {
         UpdateItemDto updateItemDto = new UpdateItemDto();
         updateItemDto.setName("Fail Update");
 
@@ -125,7 +125,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void getItem_ShouldReturnSavedItem() {
+    public void getItem_ShouldReturnSavedItem() {
         ItemDto savedItem = itemService.add(testUser.getId(), createItemDto);
 
         ItemDto fetchedItem = itemService.getItem(savedItem.getId());
@@ -135,7 +135,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void getItems_ShouldReturnAllUserItems() {
+    public void getItems_ShouldReturnAllUserItems() {
         itemService.add(testUser.getId(), createItemDto);
 
         Collection<ItemDto> items = itemService.getItems(testUser.getId());
@@ -145,7 +145,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void searchItems_ShouldReturnMatchingItems() {
+    public void searchItems_ShouldReturnMatchingItems() {
         itemService.add(testUser.getId(), createItemDto);
 
         Collection<ItemDto> items = itemService.searchItems("test");
@@ -155,7 +155,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void addComment_shouldSaveComment_whenUserHasFinishedBooking() {
+    public void addComment_shouldSaveComment_whenUserHasFinishedBooking() {
         Booking booking = bookingRepository.save(new Booking(
                 null,
                 LocalDateTime.now().minusDays(2),
@@ -179,7 +179,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void addComment_shouldThrowNotFoundException_whenItemNotFound() {
+    public void addComment_shouldThrowNotFoundException_whenItemNotFound() {
         CreateCommentDto dto = new CreateCommentDto();
         dto.setText("Nice!");
 
@@ -190,7 +190,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void addComment_shouldThrowNotFoundException_whenUserNotFound() {
+    public void addComment_shouldThrowNotFoundException_whenUserNotFound() {
         CreateCommentDto dto = new CreateCommentDto();
         dto.setText("Nice!");
 
@@ -201,7 +201,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void addComment_shouldThrowValidationException_whenBookingNotFinished() {
+    public void addComment_shouldThrowValidationException_whenBookingNotFinished() {
         CreateCommentDto dto = new CreateCommentDto();
         dto.setText("Bad comment");
 
@@ -212,7 +212,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void addItem_withRequestId_shouldSetRequest() {
+    public void addItem_withRequestId_shouldSetRequest() {
         ItemRequest itemRequest = new ItemRequest();
         itemRequest.setRequestor(testUser);
         itemRequest.setItems(List.of());
@@ -242,7 +242,7 @@ class ItemServiceImplIntegrationTest {
     }
 
     @Test
-    void updateItem_shouldThrowNotFoundException_whenItemDoesNotExist() {
+    public void updateItem_shouldThrowNotFoundException_whenItemDoesNotExist() {
         long nonExistentItemId = 999L; // ID которого нет в БД
         long ownerId = testUser.getId(); // может быть любой существующий пользователь
 

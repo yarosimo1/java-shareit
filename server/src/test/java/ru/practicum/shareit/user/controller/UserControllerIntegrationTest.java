@@ -34,7 +34,7 @@ class UserControllerIntegrationTest {
     private UserService userService;
 
     @Test
-    void postUser_returnsUser() throws Exception {
+    public void postUser_returnsUser() throws Exception {
         CreateUserDto dto = new CreateUserDto();
         dto.setName("Иван");
         dto.setEmail("ivan@example.com");
@@ -56,7 +56,7 @@ class UserControllerIntegrationTest {
     }
 
     @Test
-    void getUser_returnsUser() throws Exception {
+    public void getUser_returnsUser() throws Exception {
         UserDto user = new UserDto();
         user.setId(1L);
         user.setName("Иван");
@@ -70,7 +70,7 @@ class UserControllerIntegrationTest {
     }
 
     @Test
-    void patchUser_updatesUser() throws Exception {
+    public void patchUser_updatesUser() throws Exception {
         UpdateUserDto updateDto = new UpdateUserDto();
         updateDto.setName("Петр");
 
@@ -89,7 +89,7 @@ class UserControllerIntegrationTest {
     }
 
     @Test
-    void deleteUser_shouldReturn200() throws Exception {
+    public void deleteUser_shouldReturn200() throws Exception {
         long userId = 1L;
 
         mockMvc.perform(delete("/users/{userId}", userId))

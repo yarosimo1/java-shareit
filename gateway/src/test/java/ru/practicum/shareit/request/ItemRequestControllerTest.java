@@ -34,13 +34,13 @@ class ItemRequestControllerTest {
     private CreateItemRequestDto validRequestDto;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         validRequestDto = new CreateItemRequestDto();
         validRequestDto.setDescription("Нужна дрель");
     }
 
     @Test
-    void addRequest_whenValid_thenReturns200() throws Exception {
+    public void addRequest_whenValid_thenReturns200() throws Exception {
         when(itemRequestClient.addRequest(anyLong(), any(CreateItemRequestDto.class)))
                 .thenReturn(ResponseEntity.ok().body("RequestAdded"));
 
@@ -53,7 +53,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void addRequest_whenInvalid_thenReturns400() throws Exception {
+    public void addRequest_whenInvalid_thenReturns400() throws Exception {
         CreateItemRequestDto invalidRequest = new CreateItemRequestDto(); // description пустой
 
         mockMvc.perform(post("/requests")
@@ -64,7 +64,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void getItemRequestDto_whenCalled_thenReturns200() throws Exception {
+    public void getItemRequestDto_whenCalled_thenReturns200() throws Exception {
         when(itemRequestClient.getUsersItemRequests(anyLong()))
                 .thenReturn(ResponseEntity.ok().body("UserRequests"));
 
@@ -75,7 +75,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void getAllItemRequest_whenCalled_thenReturns200() throws Exception {
+    public void getAllItemRequest_whenCalled_thenReturns200() throws Exception {
         when(itemRequestClient.getAllItemRequests(anyLong()))
                 .thenReturn(ResponseEntity.ok().body("AllRequests"));
 
@@ -86,7 +86,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void getItemRequestById_whenCalled_thenReturns200() throws Exception {
+    public void getItemRequestById_whenCalled_thenReturns200() throws Exception {
         when(itemRequestClient.getItemRequest(anyLong()))
                 .thenReturn(ResponseEntity.ok().body("RequestById"));
 

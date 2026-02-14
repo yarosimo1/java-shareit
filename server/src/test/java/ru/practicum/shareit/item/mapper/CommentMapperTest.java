@@ -16,7 +16,7 @@ class CommentMapperTest {
     private final CommentMapper mapper = CommentMapper.INSTANCE;
 
     @Test
-    void toCommentDto_shouldMapAuthorNameAndFields() {
+    public void toCommentDto_shouldMapAuthorNameAndFields() {
         User author = new User(1L, "Alice", "alice@mail.com");
 
         Comment comment = new Comment();
@@ -34,14 +34,14 @@ class CommentMapperTest {
     }
 
     @Test
-    void toCommentDto_shouldReturnNull_whenCommentIsNull() {
+    public void toCommentDto_shouldReturnNull_whenCommentIsNull() {
         CommentDto dto = mapper.toCommentDto(null);
 
         assertNull(dto);
     }
 
     @Test
-    void toCommentDto_shouldSetAuthorNameNull_whenAuthorIsNull() {
+    public void toCommentDto_shouldSetAuthorNameNull_whenAuthorIsNull() {
         Comment comment = new Comment();
         comment.setId(1L);
         comment.setText("No author");

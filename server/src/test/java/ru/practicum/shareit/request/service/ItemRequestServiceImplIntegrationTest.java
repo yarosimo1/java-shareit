@@ -28,7 +28,7 @@ class ItemRequestServiceImplIntegrationTest {
     private long anotherUserId;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         // Создаём первого пользователя
         CreateUserDto user = new CreateUserDto();
         user.setName("Test User");
@@ -48,7 +48,7 @@ class ItemRequestServiceImplIntegrationTest {
     }
 
     @Test
-    void testAddItemRequest() {
+    public void testAddItemRequest() {
         CreateItemRequestDto requestDto = new CreateItemRequestDto();
         requestDto.setDescription("Нужна дрель");
 
@@ -60,7 +60,7 @@ class ItemRequestServiceImplIntegrationTest {
     }
 
     @Test
-    void testGetUsersItemRequests() {
+    public void testGetUsersItemRequests() {
         // Добавляем несколько запросов для одного пользователя
         itemRequestService.add(userId, hammer);
         itemRequestService.add(userId, drill);
@@ -73,7 +73,7 @@ class ItemRequestServiceImplIntegrationTest {
     }
 
     @Test
-    void testGetAllItemRequests() {
+    public void testGetAllItemRequests() {
         // Другой пользователь создаёт запрос
         itemRequestService.add(anotherUserId, hammer);
 
@@ -85,7 +85,7 @@ class ItemRequestServiceImplIntegrationTest {
     }
 
     @Test
-    void testGetItemRequest() {
+    public void testGetItemRequest() {
         // Добавляем запрос и проверяем его получение по ID
         ItemRequestDto savedRequest = itemRequestService.add(userId, drill);
 
@@ -96,7 +96,7 @@ class ItemRequestServiceImplIntegrationTest {
     }
 
     @Test
-    void testMultipleUsersRequestsIsolation() {
+    public void testMultipleUsersRequestsIsolation() {
         // Пользователь 1 добавляет запрос
         itemRequestService.add(userId, drill);
 

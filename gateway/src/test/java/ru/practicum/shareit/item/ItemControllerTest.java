@@ -37,7 +37,7 @@ class ItemControllerTest {
     private UpdateItemDto updateItemDto;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         validItemDto = new CreateItemDto();
         validItemDto.setName("Дрель");
         validItemDto.setDescription("Электрическая дрель");
@@ -53,7 +53,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void addItem_whenValid_thenReturns200() throws Exception {
+    public void addItem_whenValid_thenReturns200() throws Exception {
         when(itemClient.addItem(anyLong(), any(CreateItemDto.class)))
                 .thenReturn(ResponseEntity.ok().body("OK"));
 
@@ -66,7 +66,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void addItem_whenInvalid_thenReturns400() throws Exception {
+    public void addItem_whenInvalid_thenReturns400() throws Exception {
         CreateItemDto invalidItem = new CreateItemDto(); // все поля null
 
         mockMvc.perform(post("/items")
@@ -77,7 +77,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void updateItem_whenValid_thenReturns200() throws Exception {
+    public void updateItem_whenValid_thenReturns200() throws Exception {
         when(itemClient.updateItem(anyLong(), anyLong(), any(UpdateItemDto.class)))
                 .thenReturn(ResponseEntity.ok().body("Updated"));
 
@@ -90,7 +90,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void getItems_whenCalled_thenReturns200() throws Exception {
+    public void getItems_whenCalled_thenReturns200() throws Exception {
         when(itemClient.getItems(anyLong()))
                 .thenReturn(ResponseEntity.ok().body("Items"));
 
@@ -101,7 +101,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void getItem_whenCalled_thenReturns200() throws Exception {
+    public void getItem_whenCalled_thenReturns200() throws Exception {
         when(itemClient.getItem(anyLong()))
                 .thenReturn(ResponseEntity.ok().body("Item"));
 
@@ -111,7 +111,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void searchItems_whenCalled_thenReturns200() throws Exception {
+    public void searchItems_whenCalled_thenReturns200() throws Exception {
         when(itemClient.searchItems(anyLong(), any()))
                 .thenReturn(ResponseEntity.ok().body("SearchResult"));
 
@@ -123,7 +123,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void addComment_whenValid_thenReturns200() throws Exception {
+    public void addComment_whenValid_thenReturns200() throws Exception {
         when(itemClient.addComment(anyLong(), anyLong(), any(CreateCommentDto.class)))
                 .thenReturn(ResponseEntity.ok().body("CommentAdded"));
 
@@ -136,7 +136,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void addComment_whenInvalid_thenReturns400() throws Exception {
+    public void addComment_whenInvalid_thenReturns400() throws Exception {
         CreateCommentDto invalidComment = new CreateCommentDto(); // текст null
 
         mockMvc.perform(post("/items/1/comment")

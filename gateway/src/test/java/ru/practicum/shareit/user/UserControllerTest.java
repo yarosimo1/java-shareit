@@ -35,7 +35,7 @@ class UserControllerTest {
     private UpdateUserDto validUpdateUser;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         validCreateUser = new CreateUserDto();
         validCreateUser.setName("Иван");
         validCreateUser.setEmail("ivan@example.com");
@@ -46,7 +46,7 @@ class UserControllerTest {
     }
 
     @Test
-    void postUser_whenValid_thenReturns200() throws Exception {
+    public void postUser_whenValid_thenReturns200() throws Exception {
         when(userClient.addUser(any(CreateUserDto.class)))
                 .thenReturn(ResponseEntity.ok("UserCreated"));
 
@@ -58,7 +58,7 @@ class UserControllerTest {
     }
 
     @Test
-    void postUser_whenInvalid_thenReturns400() throws Exception {
+    public void postUser_whenInvalid_thenReturns400() throws Exception {
         CreateUserDto invalidUser = new CreateUserDto(); // имя и email пустые
 
         mockMvc.perform(post("/users")
@@ -68,7 +68,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUser_whenValid_thenReturns200() throws Exception {
+    public void updateUser_whenValid_thenReturns200() throws Exception {
         when(userClient.updateUser(anyLong(), any(UpdateUserDto.class)))
                 .thenReturn(ResponseEntity.ok("UserUpdated"));
 
@@ -80,7 +80,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUser_whenInvalidEmail_thenReturns400() throws Exception {
+    public void updateUser_whenInvalidEmail_thenReturns400() throws Exception {
         UpdateUserDto invalidUpdate = new UpdateUserDto();
         invalidUpdate.setEmail("invalid-email");
 
@@ -91,7 +91,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUser_whenCalled_thenReturns200() throws Exception {
+    public void getUser_whenCalled_thenReturns200() throws Exception {
         when(userClient.getUserById(anyLong()))
                 .thenReturn(ResponseEntity.ok("UserFound"));
 
@@ -101,7 +101,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUser_whenCalled_thenReturns200() throws Exception {
+    public void deleteUser_whenCalled_thenReturns200() throws Exception {
         when(userClient.deleteUserById(anyLong()))
                 .thenReturn(ResponseEntity.ok("UserDeleted"));
 

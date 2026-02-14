@@ -17,7 +17,7 @@ class CreateBookingDtoJsonTest {
     private JacksonTester<CreateBookingDto> json;
 
     @Test
-    void serialize() throws Exception {
+    public void serialize() throws Exception {
         CreateBookingDto dto = CreateBookingDto.builder()
                 .itemId(1L)
                 .start(LocalDateTime.of(2025, 1, 10, 12, 0))

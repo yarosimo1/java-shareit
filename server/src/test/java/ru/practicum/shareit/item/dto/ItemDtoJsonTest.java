@@ -17,7 +17,7 @@ class ItemDtoJsonTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void testSerializeDeserializeItemDto() throws Exception {
+    public void testSerializeDeserializeItemDto() throws Exception {
         ItemDto itemDto = new ItemDto();
         itemDto.setId(1L);
         itemDto.setName("Item 1");

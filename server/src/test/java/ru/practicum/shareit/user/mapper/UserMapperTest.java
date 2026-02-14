@@ -14,7 +14,7 @@ class UserMapperTest {
     private final UserMapper mapper = new UserMapperImpl();
 
     @Test
-    void toUserDto_shouldMapFields() {
+    public void toUserDto_shouldMapFields() {
         User user = new User(1L, "Alice", "alice@mail.com");
 
         UserDto dto = mapper.toUserDto(user);
@@ -25,7 +25,7 @@ class UserMapperTest {
     }
 
     @Test
-    void toUser_fromCreateUserDto_shouldMapFields() {
+    public void toUser_fromCreateUserDto_shouldMapFields() {
         CreateUserDto createDto = new CreateUserDto();
         createDto.setName("Bob");
         createDto.setEmail("bob@mail.com");
@@ -38,7 +38,7 @@ class UserMapperTest {
     }
 
     @Test
-    void toUser_fromUserDto_shouldMapFields() {
+    public void toUser_fromUserDto_shouldMapFields() {
         UserDto dto = new UserDto();
         dto.setId(5L);
         dto.setName("Charlie");
@@ -52,7 +52,7 @@ class UserMapperTest {
     }
 
     @Test
-    void updateUserFields_shouldUpdateNonNullFields() {
+    public void updateUserFields_shouldUpdateNonNullFields() {
         User user = new User(1L, "Old Name", "old@mail.com");
 
         UpdateUserDto updateDto = new UpdateUserDto();
@@ -66,7 +66,7 @@ class UserMapperTest {
     }
 
     @Test
-    void updateUserFields_shouldUpdateEmailIfNotNull() {
+    public void updateUserFields_shouldUpdateEmailIfNotNull() {
         User user = new User(1L, "Name", "old@mail.com");
 
         UpdateUserDto updateDto = new UpdateUserDto();
@@ -79,21 +79,21 @@ class UserMapperTest {
     }
 
     @Test
-    void toUserDto_shouldReturnNull_whenUserIsNull() {
+    public void toUserDto_shouldReturnNull_whenUserIsNull() {
         UserDto dto = mapper.toUserDto(null);
 
         assertNull(dto);
     }
 
     @Test
-    void toUser_fromCreateUserDto_shouldReturnNull_whenDtoIsNull() {
+    public void toUser_fromCreateUserDto_shouldReturnNull_whenDtoIsNull() {
         User user = mapper.toUser((CreateUserDto) null);
 
         assertNull(user);
     }
 
     @Test
-    void toUser_fromUserDto_shouldReturnNull_whenDtoIsNull() {
+    public void toUser_fromUserDto_shouldReturnNull_whenDtoIsNull() {
         User user = mapper.toUser((UserDto) null);
 
         assertNull(user);

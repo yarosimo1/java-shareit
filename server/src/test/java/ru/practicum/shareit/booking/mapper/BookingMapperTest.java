@@ -17,7 +17,7 @@ class BookingMapperTest {
     private final BookingMapper mapper = BookingMapper.INSTANCE;
 
     @Test
-    void toBookingDto_shouldMapAllFields() {
+    public void toBookingDto_shouldMapAllFields() {
         User booker = new User(1L, "John", "john@mail.com");
         Item item = new Item(2L, booker, "Drill", "Power drill", true, null, null);
 
@@ -41,7 +41,7 @@ class BookingMapperTest {
     }
 
     @Test
-    void toBooking_shouldMapItemId() {
+    public void toBooking_shouldMapItemId() {
         CreateBookingDto dto = CreateBookingDto.builder()
                 .itemId(5L)
                 .start(LocalDateTime.of(2026, 2, 11, 14, 0))
@@ -56,21 +56,21 @@ class BookingMapperTest {
     }
 
     @Test
-    void toBookingDto_shouldReturnNull_whenBookingIsNull() {
+    public void toBookingDto_shouldReturnNull_whenBookingIsNull() {
         BookingDto dto = mapper.toBookingDto(null);
 
         assertNull(dto);
     }
 
     @Test
-    void toBooking_shouldReturnNull_whenCreateBookingDtoIsNull() {
+    public void toBooking_shouldReturnNull_whenCreateBookingDtoIsNull() {
         Booking booking = mapper.toBooking(null);
 
         assertNull(booking);
     }
 
     @Test
-    void toBookingDto_shouldSetItemNull_whenItemIsNull() {
+    public void toBookingDto_shouldSetItemNull_whenItemIsNull() {
         Booking booking = new Booking(
                 1L,
                 LocalDateTime.now(),
@@ -86,7 +86,7 @@ class BookingMapperTest {
     }
 
     @Test
-    void toBooking_shouldSetItemNull_whenCreateBookingDtoHasNullItemId() {
+    public void toBooking_shouldSetItemNull_whenCreateBookingDtoHasNullItemId() {
         CreateBookingDto dto = CreateBookingDto.builder()
                 .start(LocalDateTime.now())
                 .end(LocalDateTime.now().plusHours(1))

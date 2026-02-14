@@ -36,7 +36,7 @@ class ItemRequestControllerTest {
     private ItemRequestService requestService;
 
     @Test
-    void addRequest_shouldReturn200() throws Exception {
+    public void addRequest_shouldReturn200() throws Exception {
         CreateItemRequestDto dto = new CreateItemRequestDto();
         dto.setDescription("Need item");
 
@@ -57,7 +57,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void getUserRequests_shouldReturnList() throws Exception {
+    public void getUserRequests_shouldReturnList() throws Exception {
         when(requestService.getUsersItemRequests(anyLong()))
                 .thenReturn(List.of());
 
@@ -67,7 +67,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void getAllRequests_shouldReturnList() throws Exception {
+    public void getAllRequests_shouldReturnList() throws Exception {
         when(requestService.getAllItemRequests(anyLong()))
                 .thenReturn(List.of());
 
@@ -77,7 +77,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void getRequestById_shouldReturnRequest() throws Exception {
+    public void getRequestById_shouldReturnRequest() throws Exception {
         when(requestService.getItemRequest(anyLong()))
                 .thenReturn(ItemRequestDto.builder().id(1L).build());
 

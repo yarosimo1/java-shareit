@@ -19,12 +19,12 @@ class GlobalExceptionHandlerTest {
     private GlobalExceptionHandler handler;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         handler = new GlobalExceptionHandler();
     }
 
     @Test
-    void handleNotFound_shouldReturn404() {
+    public void handleNotFound_shouldReturn404() {
         NotFoundException ex = new NotFoundException("Item not found");
 
         ResponseEntity<ErrorResponse> response = handler.handleNotFound(ex);
@@ -35,7 +35,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    void handleDuplicatedData_shouldReturn409() {
+    public void handleDuplicatedData_shouldReturn409() {
         DuplicatedDataException ex = new DuplicatedDataException("Email exists");
 
         ResponseEntity<ErrorResponse> response = handler.handleDuplicatedData(ex);
@@ -46,7 +46,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    void handleUnavailableItem_shouldReturn400() {
+    public void handleUnavailableItem_shouldReturn400() {
         UnavailableItemException ex = new UnavailableItemException("Item not available");
 
         ResponseEntity<ErrorResponse> response = handler.handleUnavailableItem(ex);
@@ -57,7 +57,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    void handleNotOwner_shouldReturn403() {
+    public void handleNotOwner_shouldReturn403() {
         NotOwnerException ex = new NotOwnerException("Not the owner");
 
         ResponseEntity<ErrorResponse> response = handler.handleUnavailableItem(ex);
@@ -68,7 +68,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    void handleValidationException_shouldReturn400() {
+    public void handleValidationException_shouldReturn400() {
         ValidationException ex = new ValidationException("Cannot comment");
 
         ResponseEntity<ErrorResponse> response = handler.handleUnavailableItem(ex);
@@ -79,7 +79,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    void handleMethodArgumentNotValid_shouldReturn400() {
+    public void handleMethodArgumentNotValid_shouldReturn400() {
         BindingResult bindingResult = org.mockito.Mockito.mock(BindingResult.class);
         FieldError fieldError = new FieldError("object", "field", "must not be null");
         org.mockito.Mockito.when(bindingResult.getFieldErrors()).thenReturn(Collections.singletonList(fieldError));
@@ -94,7 +94,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    void handleUnexpected_shouldReturn500() {
+    public void handleUnexpected_shouldReturn500() {
         Exception ex = new Exception("Unexpected");
 
         ResponseEntity<ErrorResponse> response = handler.handleUnexpected(ex);

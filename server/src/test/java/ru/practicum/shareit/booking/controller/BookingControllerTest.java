@@ -37,7 +37,7 @@ class BookingControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void addBooking_shouldReturnBookingDto() throws Exception {
+    public void addBooking_shouldReturnBookingDto() throws Exception {
         long userId = 1L;
 
         CreateBookingDto createDto = CreateBookingDto.builder()
@@ -63,7 +63,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void updateBooking_shouldApprove() throws Exception {
+    public void updateBooking_shouldApprove() throws Exception {
         long ownerId = 1L;
         long bookingId = 10L;
 
@@ -83,7 +83,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getBooking_shouldReturnBooking() throws Exception {
+    public void getBooking_shouldReturnBooking() throws Exception {
         long userId = 2L;
         long bookingId = 10L;
 
@@ -101,7 +101,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getUserBookings_shouldReturnList() throws Exception {
+    public void getUserBookings_shouldReturnList() throws Exception {
         long userId = 1L;
 
         when(bookingService.getUserBookings(userId, State.ALL))
@@ -115,7 +115,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getOwnerBookings_shouldReturnList() throws Exception {
+    public void getOwnerBookings_shouldReturnList() throws Exception {
         long ownerId = 1L;
 
         when(bookingService.getOwnerBookings(ownerId, State.ALL))

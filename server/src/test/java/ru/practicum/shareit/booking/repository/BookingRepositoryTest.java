@@ -33,7 +33,7 @@ class BookingRepositoryTest {
     private Booking futureBooking;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         owner = em.persist(new User(
                 null,
                 "owner",
@@ -88,7 +88,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findAllByBooker_shouldReturnAllOrdered() {
+    public void findAllByBooker_shouldReturnAllOrdered() {
         List<Booking> bookings = bookingRepository.findAllByBooker(booker.getId());
 
         assertEquals(3, bookings.size());
@@ -96,7 +96,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findCurrentByBooker_shouldReturnCurrent() {
+    public void findCurrentByBooker_shouldReturnCurrent() {
         List<Booking> bookings =
                 bookingRepository.findCurrentByBooker(booker.getId(), now);
 
@@ -105,7 +105,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findPastByBooker_shouldReturnPast() {
+    public void findPastByBooker_shouldReturnPast() {
         List<Booking> bookings =
                 bookingRepository.findPastByBooker(booker.getId(), now);
 
@@ -114,7 +114,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findFutureByBooker_shouldReturnFuture() {
+    public void findFutureByBooker_shouldReturnFuture() {
         List<Booking> bookings =
                 bookingRepository.findFutureByBooker(booker.getId(), now);
 
@@ -123,7 +123,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findByBookerAndStatus_shouldReturnWaiting() {
+    public void findByBookerAndStatus_shouldReturnWaiting() {
         List<Booking> bookings =
                 bookingRepository.findByBookerAndStatus(booker.getId(), Status.WAITING);
 
@@ -132,7 +132,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findAllByOwner_shouldReturnAll() {
+    public void findAllByOwner_shouldReturnAll() {
         List<Booking> bookings =
                 bookingRepository.findAllByOwner(owner.getId());
 
@@ -140,7 +140,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void hasFinishedBooking_shouldReturnTrue() {
+    public void hasFinishedBooking_shouldReturnTrue() {
         boolean result = bookingRepository.hasFinishedBooking(
                 item.getId(),
                 booker.getId(),
@@ -151,7 +151,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findLastBooking_shouldReturnLast() {
+    public void findLastBooking_shouldReturnLast() {
         List<Booking> bookings =
                 bookingRepository.findLastBooking(item.getId(), now);
 
@@ -160,7 +160,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findNextBooking_shouldReturnNext() {
+    public void findNextBooking_shouldReturnNext() {
         List<Booking> bookings =
                 bookingRepository.findNextBooking(item.getId(), now);
 
