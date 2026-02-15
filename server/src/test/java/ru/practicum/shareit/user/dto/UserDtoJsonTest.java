@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-class UserDtoJsonTest {
+public class UserDtoJsonTest {
 
     @Autowired
     private ObjectMapper objectMapper;

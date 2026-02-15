@@ -11,7 +11,7 @@ import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-class ItemDtoJsonTest {
+public class ItemDtoJsonTest {
 
     @Autowired
     private ObjectMapper objectMapper;

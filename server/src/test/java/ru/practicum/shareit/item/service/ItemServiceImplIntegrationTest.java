@@ -37,7 +37,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
-class ItemServiceImplIntegrationTest {
+public class ItemServiceImplIntegrationTest {
 
     @Autowired
     private ItemService itemService;

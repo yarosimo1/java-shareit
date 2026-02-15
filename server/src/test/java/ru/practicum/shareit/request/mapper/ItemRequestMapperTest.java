@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ItemRequestMapperTest {
+public class ItemRequestMapperTest {
 
     private final ItemRequestMapper mapper = ItemRequestMapperImpl.INSTANCE;
 

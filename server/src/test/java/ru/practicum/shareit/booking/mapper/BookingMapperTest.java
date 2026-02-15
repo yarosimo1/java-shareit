@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-class BookingMapperTest {
+public class BookingMapperTest {
 
     private final BookingMapper mapper = BookingMapper.INSTANCE;
 

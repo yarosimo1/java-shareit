@@ -11,7 +11,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-class ItemRequestDtoJsonTest {
+public class ItemRequestDtoJsonTest {
 
     @Autowired
     private JacksonTester<ItemRequestDto> json;

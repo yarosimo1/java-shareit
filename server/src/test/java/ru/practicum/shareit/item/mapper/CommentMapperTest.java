@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-class CommentMapperTest {
+public class CommentMapperTest {
 
     private final CommentMapper mapper = CommentMapper.INSTANCE;
 

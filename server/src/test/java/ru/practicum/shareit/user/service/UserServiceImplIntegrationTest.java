@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 @DataJpaTest
 @Import(UserServiceImpl.class)
 @ActiveProfiles("test")
-class UserServiceImplIntegrationTest {
+public class UserServiceImplIntegrationTest {
 
     @Autowired
     private UserServiceImpl userService;

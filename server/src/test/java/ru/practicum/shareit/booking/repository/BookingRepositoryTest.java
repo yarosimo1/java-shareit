@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
-class BookingRepositoryTest {
+public class BookingRepositoryTest {
 
     private final LocalDateTime now = LocalDateTime.now();
     @Autowired

@@ -9,7 +9,7 @@ import ru.practicum.shareit.user.model.User;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-class UserMapperTest {
+public class UserMapperTest {
 
     private final UserMapper mapper = new UserMapperImpl();
 

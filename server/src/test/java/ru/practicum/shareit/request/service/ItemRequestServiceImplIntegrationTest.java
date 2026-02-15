@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class ItemRequestServiceImplIntegrationTest {
+public class ItemRequestServiceImplIntegrationTest {
 
     CreateItemRequestDto hammer;
     CreateItemRequestDto drill;
